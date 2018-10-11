@@ -11,8 +11,6 @@
   <include package="grokcore.component" file="meta.zcml" />
   <include package="dolmen.menu" />
   <include package="uvc.design.canvas" />
-  <grok:grok package="uvc.themes.btwidgets.widgets" />
-  <grok:grok package="uvc.themes.btwidgets.form" />
   <grok:grok package="." />
 
 </configure>
