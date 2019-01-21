@@ -49,12 +49,11 @@
     <div class="userpreferences pull-right"
 	 tal:define="entries viewlet.getPersonal()">
       <ul class="nav navbar-nav navbar-right" tal:condition="entries">
-	<li class="dropdown">
-	  <a data-toggle="dropdown" id="dropdown-user" class="dropdown-toggle"> 
+	  <a tal:attributes="href viewlet.view.application_url() + '/myprefs'" href="myprefs" id="dropdown-user" class="btn"> 
 	    <span class="glyphicon glyphicon-user"></span> 
 	    <span>Meine VBG</span> 
-	    <b class="caret"></b> 
 	  </a>
+    <!--
 	  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-user">
 	    <tal:loop repeat="entry entries">
 	      <li class="divider"
@@ -66,7 +65,7 @@
 	      </li>
 	    </tal:loop>
 	  </ul>
-	</li>
+    -->
       </ul>
     </div>
     

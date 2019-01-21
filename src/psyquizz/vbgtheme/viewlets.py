@@ -10,6 +10,12 @@ from grokcore.component import adapter, implementer
 from nva.psyquizz.browser.viewlets import PersonalMenuViewlet
 from .interfaces import IVBGTheme
 from . import get_template
+from siguvtheme.uvclight.viewlets import BGHeader
+
+
+class BGHeader(BGHeader):
+    uvclight.layer(IVBGTheme)
+    template = get_template('header.cpt')
 
 
 class Disable(PersonalMenuViewlet):
