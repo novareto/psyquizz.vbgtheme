@@ -1,146 +1,26 @@
-<nav class="navbar" role="navigation">
-  <div class="navbar-header">
-    <button class="navbar-toggle"
-	    data-target="div#navigation-mobile"
-	    data-toggle="collapse" type="button">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="glyphicon glyphicon-align-justify"></span>
-    </button>
-    <button class="navbar-toggle"
-	    data-target="div#personalmenu-mobile"
-	    data-toggle="collapse" type="button">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="glyphicon glyphicon-user"> </span>
-    </button>
-  </div>
-  
-  <div id="personalmenu-mobile" class="collapse navbar-collapse">
-    <ul class="nav navbar-nav visible-xs">
-      <tal:loop repeat="entry viewlet.getUser()">
-	<li tal:condition="entry['action'] != 'divider'" tal:attributes="id entry['id']; class entry['selected'] and 'active' or ''">
-	  <a href="" tal:attributes="href entry['action']" tal:content="structure entry['title']"> </a>
-	</li>
-      </tal:loop>
-    </ul>
-  </div>
+<div class="container">
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+	<div class="container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">VBG</a>
+		</div>
 
-  <div id="navigation-mobile" class="no-transition collapse navbar-collapse">
-    <div id="sidebar-wrapper">
-      <ul class="nav navbar-nav visible-xs sidebar-nav" id="main-mobile-nav">
-	<tal:loop repeat="entry viewlet.getNavigation()">
-	  <li class="dropdown" tal:condition="getattr(entry, 'submenu', None)">
-	    <a class="dropdown-toggle sidebar-brand" data-toggle="dropdown" href="#"> <span tal:content="entry.title"> </span> <b class="caret"></b> </a>
-	    <ul tal:condition="entry.submenu" class="dropdown-menu">
-	      <li tal:repeat="submenu entry.submenu">
-		<a href="" tal:attributes="href submenu.action" tal:content="structure submenu.title" > </a>
-	      </li>
-	    </ul>
-	  </li>
-	  <li tal:condition="not: getattr(entry, 'submenu', None)"
-	      tal:attributes="class python: entry.selected and 'active' or ''">
-	    <a href=""
-	       tal:attributes="href entry.url"
-	       tal:content="structure entry.title"> </a>
-	  </li>
-	</tal:loop>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+        <li><a href="#" tal:attributes="href view.application_url()"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>  Startseite</a></li>
+			</ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#" tal:attributes="href view.application_url() + '/myprefs'"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>  &nbsp; Meine Einstellungen</a></li>
       </ul>
-    </div>
-  
-    <div class="userpreferences pull-right"
-	 tal:define="entries viewlet.getPersonal()">
-      <ul class="nav navbar-nav navbar-right" tal:condition="entries">
-	  <a tal:attributes="href viewlet.view.application_url() + '/myprefs'" href="myprefs" id="dropdown-user" class="btn"> 
-	    <span class="glyphicon glyphicon-user"></span> 
-	    <span>Meine VBG</span> 
-	  </a>
-    <!--
-	  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-user">
-	    <tal:loop repeat="entry entries">
-	      <li class="divider"
-		  tal:condition="getattr(entry, 'action', None) == 'divider'" />
-	      <li tal:condition="getattr(entry, 'action', None) != 'divider'"
-		  tal:attributes="class entry.selected and 'active' or ''">
-		<a href="" tal:attributes="href entry.url"
-		 tal:content="structure entry.title" />
-	      </li>
-	    </tal:loop>
-	  </ul>
-    -->
-      </ul>
-    </div>
-    
-    <div tal:attributes="id viewlet.id"
-	 class="collapse navbar-collapse navbar-nav-collapse">
-      <ul class="nav navbar-nav" id="main-nav">
-        <li class="active" tal:condition="False">
-          <a tal:attributes="href viewlet.application_url()">
-          <span class="icon"/> Home</a>
-        </li>
-        <tal:loop repeat="entry viewlet.getRenderableItems()">
-          <span tal:replace="structure entry.render()"> </span>
-        </tal:loop>
-        <tal:loop repeat="entry viewlet.getNavigation()"> 
-          <li tal:condition="getattr(entry, 'submenu', None)"> 
-            <a class="withsubmenu"
-	       tal:attributes=" href entry.action; rel repeat['entry'].index">
-              <span tal:content="entry.title"/> <b class="caret"></b>
-            </a>
-          </li>
-          <li tal:condition="not: getattr(entry, 'submenu', None)" tal:attributes="class entry.selected and 'active' or None">
-            <a href="" tal:attributes="href entry.url" tal:content="structure entry.title"> </a>
-          </li>
-        </tal:loop>
-      </ul>
-      <ul id="quicklinks" class="nav navbar-nav navbar-right"
-	  tal:condition="quicklinks"
-	  tal:define="quicklinks viewlet.getQuicklinks()">
-	<li class="dropdown yellow hidden-xs">
-          <a data-toggle="dropdown" class="dropdown-toggle quick-link" href="#">
-	    Quick links <b class="caret"></b>
-	  </a>
-          <ul role="menu" class="dropdown-menu">
-	    <li tal:repeat="entry quicklinks"> 
-	      <a href=""
-		 tal:attributes="href getattr(entry, 'url', entry.action)"
-		 tal:content="structure entry.title"> </a>
-	    </li>
-          </ul>
-	</li>
-      </ul>
-    </div>
-    <tal:loop repeat="entry viewlet.getNavigation()">
-      <div class="nav-selectmenu submenu"
-           tal:attributes="id 'submenu-%s' % repeat['entry'].index;
-			   style entry.selected and 'display: block' or 'display: none'">
-        <ul>
-          <li tal:repeat="submenu getattr(entry, 'submenu', list())">
-            
-          <a tal:attributes="href submenu.action"> 
-            <span tal:condition="submenu.icon" class="icon"> <i class="" tal:attributes="class submenu.icon" aria-hidden="true"></i> </span>
-            <span tal:content="submenu.title"> </span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </tal:loop>
-  </div>
+		</div>
+	</div>
 </nav>
-<script language="javascript">
-  $( document ).ready(function() {
-    $(".nav > li > a.withsubmenu")
-      .click(function(e) {
-        e.preventDefault();
-        $('div.submenu').hide();
-        var id = 'submenu-' + $(this).attr('rel');
-        $('#' + id).show();
-	$('.nav > li').removeClass('active');
-	$(this).parent('li').addClass('active');
-      })        
-   });
-
-   $("button.navbar-toggle[data-target='div#navigation-mobile']").click(function(e) {
-       e.preventDefault();
-       $("#wrapper").toggleClass("toggled");
-   });
-
-</script>
+</div>

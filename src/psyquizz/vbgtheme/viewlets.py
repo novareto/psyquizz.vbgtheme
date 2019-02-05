@@ -11,6 +11,17 @@ from nva.psyquizz.browser.viewlets import PersonalMenuViewlet
 from .interfaces import IVBGTheme
 from . import get_template
 from siguvtheme.uvclight.viewlets import BGHeader
+from zope import interface
+
+
+class VBGFooter(uvclight.ViewletManager):
+    uvclight.context(interface.Interface)
+    uvclight.name('vbgfooter')
+    template = get_template('vbgfooter.cpt')
+
+    def update(self):
+        pass
+
 
 
 class BGHeader(BGHeader):
@@ -43,6 +54,9 @@ class Navigation(uvclight.ViewletManager):
     uvclight.name('navigation')
     uvclight.layer(IVBGTheme)
     uvclight.context(uvclight.Interface)
+
+    def application_url(self):
+        return self.view.application_url()
 
 
 class PageTop(uvclight.ViewletManager):

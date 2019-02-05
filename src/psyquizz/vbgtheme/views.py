@@ -4,12 +4,15 @@
 
 
 import uvclight
+from zope import interface
+from . import get_template
+from nva.psyquizz.interfaces import ICompanyRequest
 
-from .interfaces import IVBGTheme
-from nva.psyquizz.browser.frontpages import AccountHomepage
 
+class Datenschutz(uvclight.Page):
+    uvclight.context(interface.Interface)
+    uvclight.layer(ICompanyRequest)
+    uvclight.auth.require('zope.Public')
 
-class AccountHomepage(AccountHomepage):
-    uvclight.layer(IVBGTheme)
-    template = uvclight.get_template('frontpage.pt', __file__)
+    template = get_template('datenschutz.cpt')
 

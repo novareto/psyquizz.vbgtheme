@@ -17,10 +17,10 @@
   </head>
   <body>
     <div id="wrapper">
-      <div class="container" id="siteheader">
-	<div id="header" class="container"
+      <div class="" id="siteheader">
+	<div id="header" class=""
 	     tal:content="structure provider:pagetop" />
-	<div id="navigation" class="container"
+	<div id="navigation" class=""
 	     tal:content="structure provider:navigation" />
       </div>
       <div id="vbg_logo_section" class="container">
@@ -43,7 +43,7 @@
 	  </div>
 	</div>
       </div>
-      <div id="footer" tal:content="structure provider:footer" />
+      <div id="footer" tal:content="structure provider:vbgfooter" />
     </div>
   </body>
 </html>
