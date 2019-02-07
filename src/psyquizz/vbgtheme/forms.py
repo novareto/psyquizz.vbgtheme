@@ -7,8 +7,9 @@ import uvclight
 from .interfaces import IVBGTheme
 from zope import schema, interface
 from nva.psyquizz.models import IAccount
-from nva.psyquizz.browser.forms import CreateAccount 
-from nva.psyquizz.browser.forms import IVerifyPassword, ICaptched 
+from nva.psyquizz.browser.forms import CreateAccount, CreateCompany
+from nva.psyquizz.browser.forms import IVerifyPassword, ICaptched
+from nva.psyquizz.models.interfaces import ICompany
 
 
 class IAckForm(interface.Interface):
@@ -26,3 +27,5 @@ class CreateAccount(CreateAccount):
     fields = (uvclight.Fields(IAccount).select('name', 'email', 'password') +
         uvclight.Fields(IVerifyPassword, ICaptched)) + uvclight.Fields(IAckForm)
 
+
+CreateCompany.fields['mnr'].description = u"Bitte geben Sie hier die ersten acht Stellen Ihrer Mitgliedsnummer bei der VBG ein."
