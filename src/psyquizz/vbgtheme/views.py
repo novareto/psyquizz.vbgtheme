@@ -9,6 +9,12 @@ from nva.psyquizz.interfaces import ICompanyRequest
 from nva.psyquizz.browser.invitations import DownloadLetter
 from nva.psyquizz.browser.lib.emailer import SecureMailer, prepare, ENCODING
 from dolmen.forms.base import FAILURE
+from nva.psyquizz.apps.company import AnonIndex
+
+
+class AnonIndex(AnonIndex):
+    uvclight.layer(IVBGTheme)
+    template = get_template('anon_index_new.pt')
 
 
 class Datenschutz(uvclight.Page):
