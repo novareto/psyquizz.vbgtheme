@@ -6,9 +6,16 @@ from . import get_template
 from .interfaces import IVBGTheme
 from dolmen.forms.base.actions import Action, Actions
 from nva.psyquizz.interfaces import ICompanyRequest
-from nva.psyquizz.browser.invitations import DownloadLetter
+from nva.psyquizz.browser.invitations import DownloadLetter, DEFAULT
 from nva.psyquizz.browser.lib.emailer import SecureMailer, prepare, ENCODING
 from dolmen.forms.base import FAILURE
+from dolmen.forms.base.widgets import FieldWidget
+from cromlech.file import FileField
+from dolmen.widget.file import FileSchemaField
+from zope.interface import Interface
+from zope.schema import interfaces as schema_interfaces
+from dolmen.forms.base.datamanagers import ObjectDataManager
+import xlrd
 
 
 class Datenschutz(uvclight.Page):
@@ -20,7 +27,7 @@ class Datenschutz(uvclight.Page):
 
 
 class IEmailer(interface.Interface):
-    emails = schema.Text(title=u"Recipients", required=False)
+    emails = FileField(title=u"Recipients", required=False)
 
 
 class EmailAction(Action):
@@ -30,6 +37,12 @@ class EmailAction(Action):
         for a in itertools.chain(
                 form.context.complete, form.context.uncomplete):
             yield url, str(a.access)
+
+    def emails(self, xls):
+        workbook = xlrd.open_workbook(file_contents=data['emails'].file)
+        sheet = workbook.sheet_by_index(0)
+        for i in range(0, sheet.nrows):
+            yield sheet.cell(i, 0).value
 
     @staticmethod
     def send(smtp, text, tokens, *recipients):
@@ -49,8 +62,9 @@ class EmailAction(Action):
         if errors:
             form.flash(u"Es ist ein Fehler aufgetreten")
             return FAILURE
+
         tokens = self.tokens(form)
-        recipients = (e.strip() for e in data['emails'].split('\n'))
+        recipients = self.emails(data['emails'])
         smtp = uvclight.getSite().configuration.smtp_server
         sent = self.send(smtp, data['text'], tokens, *recipients)
         response = form.responseFactory()
@@ -58,11 +72,25 @@ class EmailAction(Action):
         return response
 
 
+class Letter:
+
+    def __init__(self, text, emails=None):
+        self.text = text
+        self.emails = emails
+
+
 class LetterEmailer(DownloadLetter):
     uvclight.name('downloadletter')
     uvclight.layer(IVBGTheme)
 
     fields = DownloadLetter.fields + uvclight.Fields(IEmailer)
+    fields['emails'].interface = IEmailer  # TEMPORARY FIX
     actions = DownloadLetter.actions + Actions(EmailAction('Send by mail'))
 
-
+    def update(self):
+        DE = DEFAULT % (
+            self.context.startdate.strftime('%d.%m.%Y'),
+            self.context.enddate.strftime('%d.%m.%Y'),
+            )
+        defaults = Letter(DE, emails=None)
+        self.setContentData(ObjectDataManager(defaults))

@@ -31,6 +31,9 @@ setup(name='psyquizz.vbgtheme',
           'js.jquery',
           'megrok.pagetemplate',
           'setuptools',
+          'cromlech.file',
+          'dolmen.widget.file',
+          'xlrd'
       ],
       extras_require = {'test': tests_require},
       entry_points={

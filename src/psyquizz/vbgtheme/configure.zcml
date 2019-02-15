@@ -10,6 +10,7 @@
   <include package="grokcore.security" file="meta.zcml" />
   <include package="grokcore.component" file="meta.zcml" />
   <include package="dolmen.menu" />
+  <include package="dolmen.widget.file" />
   <include package="uvc.design.canvas" />
   <grok:grok package="." />
 
