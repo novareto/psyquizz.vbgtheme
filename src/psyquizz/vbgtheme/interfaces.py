@@ -6,6 +6,7 @@ from uvc.themes.btwidgets import IBootstrapRequest
 from nva.psyquizz.models import deferred_vocabularies
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from nva.psyquizz.models.interfaces import IAccount
 
 
 class IVBGTheme(IBootstrapRequest):

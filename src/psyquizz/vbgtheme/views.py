@@ -45,14 +45,15 @@ class EmailAction(Action):
             yield url, str(a.access)
 
     def emails(self, xls):
-        workbook = xlrd.open_workbook(file_contents=data['emails'].file)
+        import pdb; pdb.set_trace()
+        workbook = xlrd.open_workbook(file_contents=xls.file.read())
         sheet = workbook.sheet_by_index(0)
         for i in range(0, sheet.nrows):
             yield sheet.cell(i, 0).value
 
     @staticmethod
     def send(smtp, text, tokens, *recipients):
-        mailer = SecureMailer(smtp, port=8025)  # BBB 
+        mailer = SecureMailer(smtp)  # BBB 
         from_ = 'extranet@bgetem.de'
         title = (u'FIX ME').encode(ENCODING)
 

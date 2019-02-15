@@ -12,12 +12,21 @@ from nva.psyquizz.browser.forms import IVerifyPassword, ICaptched
 from nva.psyquizz.models.interfaces import ICompany
 
 
+DESC = u"""
+Ja, ich habe die Datenschutzhinweise und die Informationen nach Artikel 13 DSGVO gelesen und stimme diesen zu.
+Ich willige ein, dass die VBG meine personenbezogenen Daten im Rahmen des bereitgestellten Online-Verfahrens
+zur Gefährdungsbeurteilung psychische Belastung am Arbeitsplatz verarbeitet. Mir ist bekannt, dass ich die
+Einwilligung jederzeit widerrufen kann. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der
+aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung nicht berührt.
+"""
+
+
+
 class IAckForm(interface.Interface):
 
     ack_form = schema.Bool(
         title=u"Bestätigung",
-        description=u"Hiermit bestätige ich die Datenschutzbestimmungen der \
-            VBG gelessen und akzeptiert zu haben. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr",
+        description=DESC,
         required=True,
     )
 
