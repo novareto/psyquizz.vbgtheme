@@ -16,6 +16,12 @@ from zope.interface import Interface
 from zope.schema import interfaces as schema_interfaces
 from dolmen.forms.base.datamanagers import ObjectDataManager
 import xlrd
+from nva.psyquizz.apps.company import AnonIndex
+
+
+class AnonIndex(AnonIndex):
+    uvclight.layer(IVBGTheme)
+    template = get_template('anon_index_new.pt')
 
 
 class Datenschutz(uvclight.Page):
