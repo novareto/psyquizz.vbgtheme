@@ -9,10 +9,10 @@
       </li>
       <li class="divider-vertical">&nbsp;</li>
       <li class="">
-          <a href="mailto://gzga@bgetem.de">Kontakt</a>
+          <a href="mailto://ulf.krummreich@vbg.de">Kontakt</a>
       </li>
       <li class="divider-vertical">&nbsp;</li>
-      <li class="">
+      <li class="" tal:condition="manager.isAuth()">
          <a  tal:attributes="href view.application_url() + '/logout'">Abmelden</a>
       </li>
       
