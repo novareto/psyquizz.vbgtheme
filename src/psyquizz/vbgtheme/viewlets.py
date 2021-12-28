@@ -183,7 +183,7 @@ class FlashMessages(uvclight.Viewlet):
 
 
 class RGPDCK(uvclight.Viewlet):
-    uvclight.viewletmanager(IAboveContent)
+    uvclight.viewletmanager(managers.IAboveContent)
     uvclight.order(00)
     uvclight.name('rgpdck')
     template = uvclight.get_template('rgpdck.cpt', __file__)

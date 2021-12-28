@@ -3,7 +3,7 @@ import itertools
 from zope import interface
 from zope import schema
 from . import get_template
-from .interfaces import IVBGTheme
+from .interfaces import IVBGTheme, IVBGRegTheme
 from dolmen.forms.base.actions import Action, Actions
 from nva.psyquizz.interfaces import ICompanyRequest
 from nva.psyquizz.browser.invitations import DownloadLetter, DEFAULT, ExampleText
@@ -27,10 +27,11 @@ class ExampleText(ExampleText):
         template = "example_text.pt"
         if self.context.strategy == "fixed":
            template = "example_text_fixed.pt"
-        return get_template(template, __file__)
+        return get_template(template)
+
 
 class AnonIndex(AnonIndex):
-    uvclight.layer(IVBGTheme)
+    uvclight.layer(IVBGRegTheme)
     template = get_template('anon_index_new.pt')
 
 
