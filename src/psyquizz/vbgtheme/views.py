@@ -8,8 +8,8 @@ from . import get_template
 from .interfaces import IVBGTheme
 from dolmen.forms.base.actions import Action, Actions
 from nva.psyquizz.interfaces import ICompanyRequest
-from nva.psyquizz.browser.invitations import DownloadLetter, DEFAULT
-from nva.psyquizz.browser.lib.emailer import SecureMailer, prepare, ENCODING
+from nva.psyquizz.browser.invitations import DownloadLetter, DEFAULT, ExampleText
+from nva.psyquizz.emailer import ENCODING
 from dolmen.forms.base import FAILURE
 from dolmen.forms.base.widgets import FieldWidget
 from cromlech.file import FileField
@@ -26,6 +26,16 @@ class AccountHomepage(AccountHomepage):
     uvclight.layer(IVBGTheme)
     template = get_template('frontpage.pt')
 
+
+class ExampleText(ExampleText):
+    uvclight.layer(IVBGTheme)
+
+    @property
+    def template(self):
+        template = "example_text.pt"
+        if self.context.strategy == "fixed":
+           template = "example_text_fixed.pt"
+        return get_template(template, __file__)
 
 class AnonIndex(AnonIndex):
     uvclight.layer(IVBGTheme)
@@ -64,17 +74,23 @@ class EmailAction(Action):
             yield sheet.cell(i, 0).value
 
     @staticmethod
-    def send(smtp, text, tokens, *recipients):
-        mailer = SecureMailer(smtp)  # BBB 
-        from_ = 'psylastung@bg-kooperation.de'
-        title = (u'Gemeinsam zu gesunden Arbeitsbedingungen').encode(ENCODING)
+    #def send(smtp, text, tokens, *recipients):
+    #    mailer = SecureMailer(smtp)  # BBB 
+    #    from_ = 'psylastung@bg-kooperation.de'
+    #    title = (u'Gemeinsam zu gesunden Arbeitsbedingungen').encode(ENCODING)
+    def send(text, tokens, *recipients):
+        emailer = uvclight.getSite().configuration.emailer
+        title = (u'FIX ME').encode(ENCODING)
 
-        with mailer as sender:
+        with emailer as sender:
             for email in recipients:
                 url, token = next(tokens)
                 body = "%s\r\n\r\nDie Internetadresse lautet: <b> %s</b> <br/> Ihr Kennwort lautet: <b> %s</b>" % (text.encode('utf-8'), url, token)
                 mail = prepare(from_, email, title, body, body)
                 sender(from_, email, mail.as_string())
+                #body = "%s\r\n\r\nDie Internetadresse lautet: <b> %s/befragung</b> <br/> Ihr Kennwort lautet: <b> %s</b>" % (text.encode('utf-8'), url, token)
+                #mail = mailer.prepare(email, title, body, body)
+                #sender(email, mail.as_string())
 
     def __call__(self, form):
         data, errors = form.extractData()
@@ -84,8 +100,7 @@ class EmailAction(Action):
 
         tokens = self.tokens(form)
         recipients = self.emails(data['emails'])
-        smtp = uvclight.getSite().configuration.smtp_server
-        sent = self.send(smtp, data['text'], tokens, *recipients)
+        sent = self.send(data['text'], tokens, *recipients)
         response = form.responseFactory()
         response.redirect(form.url(form.context), status=302)
         return response
