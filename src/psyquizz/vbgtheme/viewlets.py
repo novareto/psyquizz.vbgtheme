@@ -22,6 +22,12 @@ class VBGFooter(uvclight.ViewletManager):
     def update(self):
         pass
 
+    def isAuth(self):
+        if hasattr(self.request, 'principal'):
+            if self.request.principal.id != 'user.unauthenticated':
+                return True
+        return False
+
 
 
 class BGHeader(BGHeader):
@@ -170,6 +176,12 @@ class NavigationMenuViewlet(MenuViewlet):
         menu = menus.PersonalMenu(self.context, self.request, self.view)
         menu.update()
         return menu.entries
+
+    def isAuth(self):
+        if hasattr(self.request, 'principal'):
+            if self.request.principal.id != 'user.unauthenticated':
+                return True
+        return False
 
     
 class FlashMessages(uvclight.Viewlet):

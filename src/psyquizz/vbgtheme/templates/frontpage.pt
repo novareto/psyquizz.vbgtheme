@@ -122,10 +122,10 @@
       <dt>
 	<span tal:condition="session.strategy != 'fixed'" 
 	   data-toggle="tooltip" data-placement="left"
-           title="E-Mail Vorlage mit Link zum Fragebogen und Befragungszeitraum, die an die Beschäftigten verschickt werden kann">Musteranschreiben:</span>
+           title="E-Mail Vorlage mit Link zum Fragebogen und Befragungszeitraum, die an die Beschäftigten verschickt werden kann">Emaileinladung/Serienbrief:</span>
 	<span tal:condition="session.strategy == 'fixed'" 
 	   data-toggle="hover" data-placement="right"
-           title="Anpassbarer Serienbrief zum Ausdrucken, um individuelles Kennwort und Link zur Befragung an die Beschäftigten zu verteilen">Musteranschreiben:</span>
+           title="Drucken Sie die Anschreiben aus und verteilen Sie diese an die Beschäftigten. Alternativ können sie auch eine Excelliste mit den Emailadressen der Empfänger, untereinander in Spalte 1 der Datei, hochladen und die Einladungen automatisch versenden lassen.">Emaileinladung/Serienbrief:</span>
       </dt> 
       <dd>
 	<a href="" tal:condition="session.strategy != 'fixed'" tal:attributes="href
@@ -135,7 +135,7 @@
 	<a tal:condition="session.strategy == 'fixed'" href="" tal:attributes="href
     view.url(context, str(company.id) + '/' + str(course.id) + '/sessions/' +
     str(session.id) + '/downloadletter')"> <span class="glyphicon
-      glyphicon-download" aria-hidden="true"> </span> Druckvorlage Serienbrief </a> 
+      glyphicon-download" aria-hidden="true"> </span> Serienbrief erstellen </a> 
       </dd>
       <dt> Zugang zur Befragung: </dt> 
       <dd>

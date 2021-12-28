@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import uvclight
 import itertools
 from zope import interface
@@ -17,6 +19,12 @@ from zope.schema import interfaces as schema_interfaces
 from dolmen.forms.base.datamanagers import ObjectDataManager
 import xlrd
 from nva.psyquizz.apps.company import AnonIndex
+from nva.psyquizz.browser.frontpages import AccountHomepage
+
+
+class AccountHomepage(AccountHomepage):
+    uvclight.layer(IVBGTheme)
+    template = get_template('frontpage.pt')
 
 
 class ExampleText(ExampleText):
@@ -37,14 +45,19 @@ class AnonIndex(AnonIndex):
 
 class Datenschutz(uvclight.Page):
     uvclight.context(interface.Interface)
-    uvclight.layer(ICompanyRequest)
+    #uvclight.layer(ICompanyRequest)
     uvclight.auth.require('zope.Public')
 
     template = get_template('datenschutz.cpt')
 
 
 class IEmailer(interface.Interface):
-    emails = FileField(title=u"Recipients", required=False)
+
+    emails = FileField(
+        title=u"Empfänger", 
+        description=u"Hier haben Sie die Möglichkeit, für den Versand der Emaileinladungen, eine Excel Liste mit den Empfänger-Emailadressen hochzuladen. Bitte führen Sie dazu alle Empfänger als Emailadresse untereinander in Spalte 1 der Excel Tabelle auf.",
+        required=False
+    )
 
 
 class EmailAction(Action):
@@ -62,6 +75,10 @@ class EmailAction(Action):
             yield sheet.cell(i, 0).value
 
     @staticmethod
+    #def send(smtp, text, tokens, *recipients):
+    #    mailer = SecureMailer(smtp)  # BBB 
+    #    from_ = 'psylastung@bg-kooperation.de'
+    #    title = (u'Gemeinsam zu gesunden Arbeitsbedingungen').encode(ENCODING)
     def send(text, tokens, *recipients):
         emailer = uvclight.getSite().configuration.emailer
         title = (u'FIX ME').encode(ENCODING)
@@ -69,9 +86,12 @@ class EmailAction(Action):
         with emailer as sender:
             for email in recipients:
                 url, token = next(tokens)
-                body = "%s\r\n\r\nDie Internetadresse lautet: <b> %s/befragung</b> <br/> Ihr Kennwort lautet: <b> %s</b>" % (text.encode('utf-8'), url, token)
-                mail = mailer.prepare(email, title, body, body)
-                sender(email, mail.as_string())
+                body = "%s\r\n\r\nDie Internetadresse lautet: <b> %s</b> <br/> Ihr Kennwort lautet: <b> %s</b>" % (text.encode('utf-8'), url, token)
+                mail = prepare(from_, email, title, body, body)
+                sender(from_, email, mail.as_string())
+                #body = "%s\r\n\r\nDie Internetadresse lautet: <b> %s/befragung</b> <br/> Ihr Kennwort lautet: <b> %s</b>" % (text.encode('utf-8'), url, token)
+                #mail = mailer.prepare(email, title, body, body)
+                #sender(email, mail.as_string())
 
     def __call__(self, form):
         data, errors = form.extractData()
@@ -100,7 +120,9 @@ class LetterEmailer(DownloadLetter):
 
     fields = DownloadLetter.fields + uvclight.Fields(IEmailer)
     fields['emails'].interface = IEmailer  # TEMPORARY FIX
-    actions = DownloadLetter.actions + Actions(EmailAction('Send by mail'))
+    actions = DownloadLetter.actions + Actions(EmailAction('Serienbrief per Mail versenden'))
+
+    label = u"Serienbrief erstellen <a href='' data-toggle='modal' data-target='#myModal'> <span class='glyphicon glyphicon-question-sign' aria-hidden='       true'></span> </a>"
 
     def update(self):
         DE = DEFAULT % (
