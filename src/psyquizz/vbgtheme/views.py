@@ -35,11 +35,13 @@ class ExampleText(ExampleText):
         template = "example_text.pt"
         if self.context.strategy == "fixed":
            template = "example_text_fixed.pt"
+        if self.context.quizz_type == 'Zebra':
+            template = "zebra_example_text.pt"
         return get_template(template)
 
 
 class AnonIndex(AnonIndex):
-    uvclight.layer(IVBGRegTheme)
+    uvclight.layer(IVBGTheme)
     template = get_template('anon_index_new.pt')
 
 

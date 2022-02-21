@@ -1,0 +1,49 @@
+<h1> Musteranschreiben </h1>
+    <p>
+    Sie können das folgenden Musteranschreiben nutzen, um Ihre Beschäftigten über die 
+    Befragung zu informieren und den Link zum „Fragebogen“ zu verteilen.  
+    Fügen Sie den Text dazu in eine E-Mail ein, passen ihn nach Ihren Vorstellungen an und 
+    versenden ihn an Ihre Beschäftigten.
+    </p>
+
+
+
+<br/> <br/>
+<div class="panel panel-default">
+<div class="panel-body">
+<button class="pull-right clipbtn btn" data-clipboard-target="#copyable">
+    In Zwischenablage kopieren 
+</button>
+<script language="Javascript">
+  new Clipboard('.clipbtn');
+</script>
+<div id="copyable">
+<p class="lead">Liebe Mitarbeiterinnen und Mitarbeiter, </p>
+<p> die Geschäftsführung der <b tal:content="context.course.company.name"> </b>
+<p>hat sich entschieden, mehr für die Gesundheitsförderung ihrer Mitarbeiterinnen 
+  und Mitarbeiter zu tun. In einem ersten Schritt wird eine Mitarbeiterbefragung durchgeführt.</p>
+<p> Es soll festgestellt werden, welche arbeitsbezogenen Belastungen vorliegen und welche Ver nderungen daraus für die Zukunft abgeleitet werden können und müssen.</p>
+
+<p> Die Befragung ist eine gute Möglichkeit, einen Eindruck zu gewinnen, was Sie bewegt und wie Sie die gesamte Situation bei Ihrer Arbeit einsch tzen. Diese für uns wertvollen Informationen sollen uns Hinweise geben, an welchen konkreten Stellen Verbesserungen zur Sicherung Ihrer Gesundheit und Arbeitszufriedenheit notwendig sind. </p>
+<p>Die Befragung läuft vom <span tal:content="string: ${context.startdate.strftime('%d.%m.%Y')} - ${context.enddate.strftime('%d.%m.%Y')}"></span>. Während dieses Zeitraums haben Sie die Möglichkeit, über folgende Internetadresse an unserer Befragung teilzunehmen: 
+<br>
+
+<br> <b><span tal:content="'%s/befragung/generic-%s' % (view.application_url(), view.generic_id(context.id))"/></b> </p>
+
+<p> Diese Umfrage ist selbstverst ndlich freiwillig und die Ergebnisse werden anonym erfasst und so ausgewertet, dass kein Rückschluss auf einzelne Teilnehmende möglich ist.</p>
+<p>
+  Noch eine Bitte: Sie wissen, eine Befragung zählt nichts ohne die rege Beteiligung Ihrerseits. Dies ist sehr wichtig. Denn nur durch eine hohe Beteiligungsquote sind wir in der Lage, gezielte Ma nahmenempfehlungen zum Thema Gesundheit bei </p>
+<b tal:content="context.course.company.name"> </b>
+<p>
+abzuleiten, um damit den Arbeitsbelastungen entgegenwirken zu können. Es geht dabei um Ihre Arbeitssituationen. Insofern freuen wir uns über alle, die an der Befragung teilnehmen!
+
+</p>
+
+<p>Sollten Sie Fragen oder Anmerkungen haben, wenden Sie sich bitte an: <br> Ansprechpartner und Kontaktdaten</p>
+</div>
+<button class="btn" name="QR-Code anzeigen" data-toggle="collapse" data-target="#qr"> QR-Code Anzeigen </button>
+<div class="collapse" id="qr" class="well">
+ <img href="" tal:attributes="src '%s/qrlink' % view.url(context)" />
+</div>
+</div>
+</div>

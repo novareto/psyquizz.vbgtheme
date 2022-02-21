@@ -4,7 +4,7 @@
 
 import uvclight
 
-from .interfaces import IVBGTheme
+from .interfaces import IVBGTheme, IVBGRegTheme
 from zope import schema, interface
 from nva.psyquizz.models import IAccount
 from nva.psyquizz.browser.forms import CreateAccount, CreateCompany
@@ -31,10 +31,16 @@ class IAckForm(interface.Interface):
     )
 
 class CreateAccount(CreateAccount):
-    uvclight.layer(IVBGTheme)
+    uvclight.layer(IVBGRegTheme)
 
     fields = (uvclight.Fields(IAccount).select('name', 'email', 'password') +
         uvclight.Fields(IVerifyPassword, ICaptched)) + uvclight.Fields(IAckForm)
 
 
-CreateCompany.fields['mnr'].description = u"Bitte geben Sie hier die ersten acht Stellen Ihrer Mitgliedsnummer bei der VBG ein."
+class CreateCompany(CreateCompany):
+    uvclight.layer(IVBGTheme)
+    label = u'Unternehmen anlegen <a href="" data-toggle="modal" data-target="#myModal"> <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>'
+
+    fields = uvclight.Fields(ICompany).select(
+       'name', 'exp_db', 'type', 'employees')
+    fields['exp_db'].mode = "blockradio"

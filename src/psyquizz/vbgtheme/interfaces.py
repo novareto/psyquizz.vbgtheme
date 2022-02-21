@@ -36,10 +36,10 @@ def vocab_type(context):
 @provider(IContextSourceBinder)
 def vocab_employees(context):
     rc = [SimpleTerm('1', '1', u'Weniger als 10'),
-        SimpleTerm('2', '2', u'10-49 Ma'),
-        SimpleTerm('3', '3', u'50-249 Ma'),
-        SimpleTerm('4', '4', u'250-499 Ma'),
-        SimpleTerm('5', '5', u'Größer 500 Ma')
+        SimpleTerm('2', '2', u'10-49'),
+        SimpleTerm('3', '3', u'50-249'),
+        SimpleTerm('4', '4', u'250-499'),
+        SimpleTerm('5', '5', u'Größer 500')
     ]
     return SimpleVocabulary(rc)
 
