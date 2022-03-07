@@ -3,7 +3,7 @@
 import uvclight
 from zope.interface import Interface
 from .interfaces import IVBGTheme
-from . import get_template, vbgcss
+from . import get_template, vbgcss, vbgjs
 
 
 class Layout(uvclight.Layout):
@@ -15,6 +15,7 @@ class Layout(uvclight.Layout):
 
     def __call__(self, content, **ns):
         vbgcss.need()
+        vbgjs.need()
         site = uvclight.getSite()
         self.title = getattr(site, 'title', 'UVCLight')
         if 'view' in ns:

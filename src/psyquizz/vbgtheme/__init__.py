@@ -8,6 +8,7 @@ from fanstatic import Library, Resource  #, Group
 
 library = Library('psyquizz.vbgtheme', 'static')
 vbgcss = Resource(library, 'vbg.css')
+vbgjs = Resource(library, 'vbg.js')
 
 
 def get_template(name):

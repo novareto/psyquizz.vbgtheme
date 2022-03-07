@@ -2,6 +2,7 @@
 
 from grokcore.component import provider
 from zope.interface import Interface
+from zope import schema
 from uvc.themes.btwidgets import IBootstrapRequest
 from nva.psyquizz.models import deferred_vocabularies
 from zope.schema.interfaces import IContextSourceBinder
@@ -46,3 +47,34 @@ def vocab_employees(context):
 
 deferred_vocabularies['type'] = vocab_type
 deferred_vocabularies['employees'] = vocab_employees
+
+
+@provider(IContextSourceBinder)
+def kontakt_reason(context):
+    rc = [SimpleTerm('1', 'ck@novareto.de1', u'Fehler beim Anmelden'),
+        SimpleTerm('2', 'ck@novareto.de2', u'Frage zum Zebra-Fragebogen'),
+        SimpleTerm('3', 'ck@novareto.de3', u'Frage zum FBGU-Fragebogen'),
+    ]
+    return SimpleVocabulary(rc)
+
+
+class IKontaktForm(Interface):
+
+    subject = schema.Choice(
+        title=u"Betreff",
+        description=u"Bitten wählen Sie aus um was es sich bei Ihrem Anliegen handelt",
+        source=kontakt_reason,
+        required=True
+    )
+
+    email = schema.TextLine(
+        title=u"E-Mail",
+        description=u"Bitten teilen Sie uns noch Ihre E-Mail Adresse für Rückfragen mit.",
+        required=True
+    )
+
+    message = schema.Text(
+        title=u"Nachricht",
+        description=u"",
+        required=True
+    )

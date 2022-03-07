@@ -4,7 +4,7 @@
 
 import uvclight
 
-from .interfaces import IVBGTheme, IVBGRegTheme
+from .interfaces import IVBGTheme, IVBGRegTheme, IKontaktForm
 from zope import schema, interface
 from nva.psyquizz.models import IAccount
 from nva.psyquizz.browser.forms import CreateAccount, CreateCompany
@@ -33,7 +33,7 @@ class IAckForm(interface.Interface):
 class CreateAccount(CreateAccount):
     uvclight.layer(IVBGRegTheme)
 
-    fields = (uvclight.Fields(IAccount).select('name', 'email', 'password') +
+    fields = (uvclight.Fields(IAccount).select('name', 'mnr', 'email', 'password') +
         uvclight.Fields(IVerifyPassword, ICaptched)) + uvclight.Fields(IAckForm)
 
 
@@ -44,3 +44,28 @@ class CreateCompany(CreateCompany):
     fields = uvclight.Fields(ICompany).select(
        'name', 'exp_db', 'type', 'employees')
     fields['exp_db'].mode = "blockradio"
+
+
+
+class KontaktForm(uvclight.Form):
+    uvclight.name('kontakt')
+    uvclight.context(interface.Interface)
+    uvclight.layer(IVBGTheme)
+    uvclight.auth.require('zope.Public')
+
+    fields = uvclight.Fields(IKontaktForm)
+
+    label = u"Kontakt"
+    description = u"Hier haben Sie die Möglichkeit uns themenspezifische Nachrichten zukommen zu lassen"
+
+    @uvclight.action('Abbrechen')
+    def handle_save(self):
+        self.redirect(self.application_url())
+
+    @uvclight.action('Senden')
+    def handle_save(self):
+        data, errors = self.extractData()
+        if errors:
+            self.flash('Es sind Fehler aufgetreten')
+            return 
+        print data

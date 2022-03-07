@@ -9,7 +9,7 @@
       </li>
       <li class="divider-vertical">&nbsp;</li>
       <li class="">
-          <a href="mailto://ulf.krummreich@vbg.de">Kontakt</a>
+          <a href="" tal:attributes="href view.application_url() + '/kontakt'">Kontakt</a>
       </li>
       <li class="divider-vertical">&nbsp;</li>
       <li class="" tal:condition="manager.isAuth()">
