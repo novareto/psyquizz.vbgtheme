@@ -11,6 +11,20 @@ from reportlab.lib.units import cm
 from nva.psyquizz.browser.pdf import GeneratePDF
 from nva.psyquizz.browser.pdf.quizz1 import PDFPL
 from nva.psyquizz.browser.pdf.quizz3 import PDF_WAI
+from nva.psyquizz.browser.pdf.quizz5 import Quizz5PDF
+
+
+class Quizz5PDF(Quizz5PDF):
+    uvclight.layer(IVBGTheme)
+
+    def headerfooter(self, canvas, doc):
+        canvas.setFont("Helvetica", 9)
+        canvas.drawString(1 * cm, 2 * cm, u"Gut gestaltete Arbeitsbedingungen")
+        canvas.drawString(1 * cm, 1.6 * cm, u"Psychische Belastungen online erfassen")
+        canvas.drawString(1 * cm, 1.2 * cm, u"Ein Programm der VBG")
+        canvas.drawString(15 * cm, 2 * cm, u"Grundlage der Befragung:")
+        canvas.drawString(15 * cm, 1.6 * cm, u"FBGU-Fragebogen")
+        canvas.setFont("Helvetica", 12)
 
 
 class GeneratePDF(GeneratePDF):
