@@ -4,11 +4,12 @@
 
 
 import uvclight
-
+import datetime
 
 from .interfaces import IVBGTheme
 from reportlab.lib.units import cm
-from nva.psyquizz.browser.pdf import GeneratePDF
+from reportlab.platypus import Paragraph
+from nva.psyquizz.browser.pdf import GeneratePDF, FRONTPAGE, styles
 from nva.psyquizz.browser.pdf.quizz1 import PDFPL
 from nva.psyquizz.browser.pdf.quizz3 import PDF_WAI
 from nva.psyquizz.browser.pdf.quizz5 import Quizz5PDF
@@ -16,6 +17,23 @@ from nva.psyquizz.browser.pdf.quizz5 import Quizz5PDF
 
 class Quizz5PDF(Quizz5PDF):
     uvclight.layer(IVBGTheme)
+
+    def frontpage(self, parts):
+        crit_style = self.crit_style()
+        parts.append(Paragraph(u'Auswertungsbericht', styles['Heading1']))
+        parts.append(Paragraph(u'„Gut gestaltete Arbeitsbedingungen“ – Psychische Belastung erfassen', styles['Heading2']))
+        fp = FRONTPAGE % (
+            self.context.course.company.name,
+            self.context.course.title,
+            self.context.startdate.strftime('%d.%m.%Y'),
+            self.context.enddate.strftime('%d.%m.%Y'),
+            crit_style,
+            self.request.form.get('total', ''),
+            datetime.datetime.now().strftime('%d.%m.%Y'))
+        parts.append(Paragraph(fp.strip(), styles['Normal']))
+        parts.append(PageBreak())
+        return
+
 
     def headerfooter(self, canvas, doc):
         canvas.setFont("Helvetica", 9)
