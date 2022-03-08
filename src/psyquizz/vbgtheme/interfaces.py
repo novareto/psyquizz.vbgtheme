@@ -51,9 +51,9 @@ deferred_vocabularies['employees'] = vocab_employees
 
 @provider(IContextSourceBinder)
 def kontakt_reason(context):
-    rc = [SimpleTerm('1', 'ck@novareto.de1', u'Fehler beim Anmelden'),
-        SimpleTerm('2', 'ck@novareto.de2', u'Frage zum Zebra-Fragebogen'),
-        SimpleTerm('3', 'ck@novareto.de3', u'Frage zum FBGU-Fragebogen'),
+    rc = [SimpleTerm('1', 'Ulf.Krummreich@vbg.de_1', u'Fehler beim Anmelden'),
+#        SimpleTerm('2', 'ck@novareto.de_2', u'Frage zum Zebra-Fragebogen'),
+        SimpleTerm('3', 'Ulf.Krummreich@vbg.de_3', u'Frage zum FBGU-Fragebogen'),
     ]
     return SimpleVocabulary(rc)
 
