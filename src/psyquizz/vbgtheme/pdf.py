@@ -32,7 +32,7 @@ class Quizz5PDF(Quizz5PDF):
             datetime.datetime.now().strftime('%d.%m.%Y'))
         parts.append(Paragraph(fp.strip(), styles['Normal']))
         parts.append(PageBreak())
-        return
+        return None
 
 
     def headerfooter(self, canvas, doc):
