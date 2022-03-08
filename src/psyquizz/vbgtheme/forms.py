@@ -68,4 +68,23 @@ class KontaktForm(uvclight.Form):
         if errors:
             self.flash('Es sind Fehler aufgetreten')
             return 
-        print data
+        from nva.psyquizz.emailer import ENCODING
+        config = self.context.configuration
+        subject_choices = self.fields['subject'].getChoices(self)
+        item = subject_choices.getTerm(data['subject'])
+        subject = item.title
+        email, suf = item.token.split('_')
+
+        tpl = config.resources.get_template('contact.tpl')
+        emailer = self.context.configuration.emailer
+        # {'message': u'fsadff', 'email': u'ck@novareto.de', 'subject': '1'}
+        title = "Anfrage!".encode(ENCODING)
+        #email = data['email']
+        data['encoding'] = ENCODING
+        data['subject'] = subject
+        with config.emailer as sender:
+            mail = config.emailer.prepare_from_template(tpl, email, title, data)
+            sender(email, mail.as_string())
+        self.flash('Ihre Anfrage wurde versendet.')
+        self.redirect(self.application_url())
+

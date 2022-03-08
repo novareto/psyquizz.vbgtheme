@@ -133,3 +133,13 @@ class LetterEmailer(DownloadLetter):
             )
         defaults = Letter(DE, emails=None)
         self.setContentData(ObjectDataManager(defaults))
+
+
+class BF(uvclight.Page):
+    uvclight.name('bf')
+    uvclight.context(interface.Interface)
+    uvclight.layer(IVBGTheme)
+    uvclight.auth.require('zope.Public')
+
+    template = get_template('bf.cpt')
+
