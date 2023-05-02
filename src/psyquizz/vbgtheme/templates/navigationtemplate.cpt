@@ -18,6 +18,7 @@
         <li><a href="#" tal:attributes="href view.application_url()"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>  Startseite</a></li>
 			</ul>
       <ul class="nav navbar-nav navbar-right">
+        <li tal:condition="viewlet.isAuthM()"><a href="#" tal:attributes="href view.application_url() + '/statistik'"><span class="glyphicon glyphicon-scale" aria-hidden="true"></span>  &nbsp; Statistik </a></li>
         <li tal:condition="viewlet.isAuth()"><a href="#" tal:attributes="href view.application_url() + '/myprefs'"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>  &nbsp; Meine Einstellungen</a></li>
       </ul>
 		</div>

@@ -5,10 +5,11 @@
 import uvclight
 
 from .interfaces import IVBGTheme, IVBGRegTheme, IKontaktForm
+from . import condition_js
 from zope import schema, interface
 from nva.psyquizz.models import IAccount
 from nva.psyquizz.browser.forms import CreateAccount, CreateCompany
-from nva.psyquizz.browser.forms import IVerifyPassword, ICaptched
+from nva.psyquizz.browser.forms import IVerifyPassword, ICaptched, IAcceptConditions
 from nva.psyquizz.models.interfaces import ICompany
 
 
@@ -34,7 +35,13 @@ class CreateAccount(CreateAccount):
     uvclight.layer(IVBGRegTheme)
 
     fields = (uvclight.Fields(IAccount).select('name', 'mnr', 'email', 'password') +
-        uvclight.Fields(IVerifyPassword, ICaptched)) + uvclight.Fields(IAckForm)
+        uvclight.Fields(IVerifyPassword, ICaptched)) + uvclight.Fields(IAcceptConditions) + uvclight.Fields(IAckForm)
+    fields['accept'].mode = "blockradio"
+    fields['accept'].title = u"Ist Ihr Unternehmen bei der VBG versichert?"
+
+    def update(self):
+        super(CreateAccount, self).update()
+        condition_js.need()
 
 
 class CreateCompany(CreateCompany):

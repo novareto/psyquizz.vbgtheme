@@ -183,6 +183,14 @@ class NavigationMenuViewlet(MenuViewlet):
                 return True
         return False
 
+    def isAuthM(self):
+        if hasattr(self.request, 'principal'):
+            if self.request.principal.id != 'user.unauthenticated':
+                from nva.psyquizz.browser.statistik import ALLOWED_USERS
+                if self.request.principal.id in ALLOWED_USERS:
+                    return True
+        return False
+
     
 class FlashMessages(uvclight.Viewlet):
     uvclight.order(2)

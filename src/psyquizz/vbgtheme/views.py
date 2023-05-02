@@ -77,23 +77,18 @@ class EmailAction(Action):
             yield sheet.cell(i, 0).value
 
     @staticmethod
-    #def send(smtp, text, tokens, *recipients):
-    #    mailer = SecureMailer(smtp)  # BBB 
-    #    from_ = 'psylastung@bg-kooperation.de'
-    #    title = (u'Gemeinsam zu gesunden Arbeitsbedingungen').encode(ENCODING)
     def send(text, tokens, *recipients):
-        emailer = uvclight.getSite().configuration.emailer
-        title = (u'FIX ME').encode(ENCODING)
-
-        with emailer as sender:
+        sender = uvclight.getSite().configuration.emailer
+        #title = (u'FIX ME').encode(ENCODING)
+        title = (u'Gemeinsam zu gesunden Arbeitsbedingungen').encode(ENCODING)
+        #sender = config.emailer.get_sender()
+        if True:
             for email in recipients:
                 url, token = next(tokens)
                 body = "%s\r\n\r\nDie Internetadresse lautet: <b> %s</b> <br/> Ihr Kennwort lautet: <b> %s</b>" % (text.encode('utf-8'), url, token)
-                mail = prepare(from_, email, title, body, body)
-                sender(from_, email, mail.as_string())
-                #body = "%s\r\n\r\nDie Internetadresse lautet: <b> %s/befragung</b> <br/> Ihr Kennwort lautet: <b> %s</b>" % (text.encode('utf-8'), url, token)
-                #mail = mailer.prepare(email, title, body, body)
-                #sender(email, mail.as_string())
+                mail = sender.prepare(email, title, body.decode('utf-8'), body.decode('utf-8'))
+                mail_sender = sender.get_sender()
+                mail_sender(mail.as_string())
 
     def __call__(self, form):
         data, errors = form.extractData()

@@ -13,6 +13,8 @@ library = Library('psyquizz.vbgtheme', 'static')
 vbgcss = Resource(library, 'vbg.css')
 vbgjs = Resource(library, 'vbg.js')
 
+condition_js = Resource(library, 'conditions.js')
+
 
 def get_template(name):
     return uvclight.get_template(name, __file__)
